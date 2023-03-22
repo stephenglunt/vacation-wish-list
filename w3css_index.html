@@ -66,11 +66,8 @@
 
     </style>
 
-    <div class="w3-container slideshow">
-        <!-- Add your content here -->
-    </div>
 
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="gluntScript.js"></script>
 </head>
 
 <body>
@@ -80,7 +77,8 @@
     <div class="big_title big_title-fluid slideshow">
         <div class="container text-center" style="z-index: 8; position: relative; text-shadow: 10px 10px 20px #fff;">
             <h1 class="heading-4">Vacation Destinations WishList</h1>
-            <p class="lead">Found exciting places to visit on your next vacation? Use the form below to add them to your wishlist</p>
+            <p class="lead">Found exciting places to visit on your next vacation? Use the form below to add them to your
+                wishlist</p>
         </div>
     </div>
 
@@ -90,11 +88,13 @@
                 <form id="destination_details_form">
                     <div class="form-group">
                         <label for="name">Destination Name</label>
-                        <input required="" minlength="2" type="text" class="form-control" id="name" placeholder="Name of the destination">
+                        <input required title="Please enter a valid destination." minlength="2" type="text" class="form-control" id="name"
+                            placeholder="Name of the destination">
                     </div>
                     <div class="form-group">
                         <label for="location">Location</label>
-                        <input required="" minlength="2" type="text" class="form-control" id="location" placeholder="Where is it located?">
+                        <input required="" minlength="2" type="text" class="form-control" id="location"
+                            placeholder="Where is it located?">
                     </div>
                     <div class="form-group">
                         <label for="photo">Photo</label>
@@ -102,15 +102,39 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea type="text" class="form-control" id="description" placeholder="List important details."></textarea>
+                        <textarea type="text" class="form-control" id="description"
+                            placeholder="List important details."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary submit_btn">Add to list</button>
                 </form>
             </div>
-            <div class="col-me-9">
+            <div class="col-md-9">
                 <h4 id="title">Enter destination details</h4>
                 <div id="destinations_container">
                     <!--Filled in by JS code-->
+
+
+                    <form>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required><br><br>
+                        <input type="submit" value="Submit">
+                      </form>
+
+                      <script>
+                        var nameInput = document.getElementById("name");
+                        nameInput.setCustomValidity("Please enter your name");
+
+                        nameInput.addEventListener("input", function(event) {
+                          if (nameInput.validity.valid) {
+                            nameInput.setCustomValidity("");
+                          } else {
+                            nameInput.setCustomValidity("Please enter your name");
+                          }
+                        });
+                      </script>
+
+
+
                 </div>
             </div>
         </div>
