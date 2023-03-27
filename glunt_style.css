@@ -457,3 +457,11 @@ h1 {
 .card button {
     margin: 10px;
 }
+
+label .input {
+
+}
+
+label.invalidInput {
+    color: red;
+}

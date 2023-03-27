@@ -87,25 +87,25 @@
             <div class="col-md-3">
                 <div id="destination_details_form">
                     <div class="form-group">
-                        <label for="name">Destination Name</label>
+                        <label class="input" for="name">Destination Name</label>
                         <input required="" minlength="2" type="text" class="form-control" id="name"
-                            placeholder="Name of the destination">
+                            placeholder="Name of the destination" onblur="validateName()">
                     </div>
                     <div class="form-group">
-                        <label for="location">Location</label>
+                        <label class="input" for="location">Location</label>
                         <input required="" minlength="2" type="text" class="form-control" id="location"
-                            placeholder="Where is it located?">
+                            placeholder="Where is it located?" onblur="validateLocation()">
                     </div>
                     <div class="form-group">
-                        <label for="photo">Photo</label>
-                        <input type="url" class="form-control" id="photo" placeholder="image url of destination">
+                        <label class="input" for="photo">Photo</label>
+                        <input type="url" class="form-control" id="photo" placeholder="image url of destination" onblur="validatePhoto()">
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label class="input" for="description">Description</label>
                         <textarea type="text" class="form-control" id="description"
                             placeholder="List important details."></textarea>
                     </div>
-                    <button class="btn btn-primary submit_btn" id="inputButton">Add to list</button>
+                    <button class="btn btn-primary submit_btn" id="inputButton" onclick="submitForm()">Add to list</button>
                 </div>
             </div>
             <div class="col-md-9">
