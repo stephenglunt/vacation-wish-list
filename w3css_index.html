@@ -85,10 +85,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <form id="destination_details_form">
+                <div id="destination_details_form">
                     <div class="form-group">
                         <label for="name">Destination Name</label>
-                        <input required title="Please enter a valid destination." minlength="2" type="text" class="form-control" id="name"
+                        <input required="" minlength="2" type="text" class="form-control" id="name"
                             placeholder="Name of the destination">
                     </div>
                     <div class="form-group">
@@ -105,34 +105,12 @@
                         <textarea type="text" class="form-control" id="description"
                             placeholder="List important details."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary submit_btn">Add to list</button>
-                </form>
+                    <button class="btn btn-primary submit_btn" id="inputButton">Add to list</button>
+                </div>
             </div>
             <div class="col-md-9">
                 <h4 id="title">Enter destination details</h4>
                 <div id="destinations_container">
-                    <!--Filled in by JS code-->
-
-
-                    <form>
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required><br><br>
-                        <input type="submit" value="Submit">
-                      </form>
-
-                      <script>
-                        var nameInput = document.getElementById("name");
-                        nameInput.setCustomValidity("Please enter your name");
-
-                        nameInput.addEventListener("input", function(event) {
-                          if (nameInput.validity.valid) {
-                            nameInput.setCustomValidity("");
-                          } else {
-                            nameInput.setCustomValidity("Please enter your name");
-                          }
-                        });
-                      </script>
-
 
 
                 </div>
