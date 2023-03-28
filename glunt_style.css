@@ -462,6 +462,20 @@ label .input {
 
 }
 
-label.invalidInput {
+.invalidInput {
     color: red;
+    font-size: 10px;
+    margin: -10 15px;
+    overflow:visible;
+    padding: 0 10px;
+    position: absolute;
+}
+
+.input {
+    border: 1px solid transparent;
+}
+
+
+[contentEditable="true"] {
+    border: 1px solid #17a2b8;
 }
