@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputButton = document.querySelector('#inputButton');
   const cardData = { name: "", image_src: "", location: "", description: "" };
 
-
-
   inputButton.addEventListener('click', () => {
 
     if (!validateName() || !validateLocation()) {
@@ -13,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const newCard = createNewCard();
-
 
     destinations.appendChild(newCard.card);
 
@@ -29,8 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
-
 });
 
 
@@ -40,8 +35,6 @@ function createNewCard() {
   const locationInput = document.querySelector('#location');
   const photoURLInput = document.querySelector('#photo');
   const descriptionInput = document.querySelector('#description');
-
-
 
   const newCardObj = {
     card: document.createElement('div'),
@@ -62,8 +55,6 @@ function createNewCard() {
   }
 
   //set content
-
-
   let img = new Image();
   img.src = photoURLInput.value;
   img.onload = () => {
@@ -94,9 +85,7 @@ function createNewCard() {
   photoURLInput.value = "";
 
   return newCardObj;
-
 }
-
 
 
 function validateName() {
@@ -160,7 +149,6 @@ function editCard(card, cardData) {
 
 function cancelEdit(card, cardData) {
 
-
   let img = new Image();
   img.src = cardData.image_src;
   img.onload = () => {
@@ -191,7 +179,6 @@ function stopEditingCard(card, cardData) {
   const input = card.card.querySelector('.image');
   const img = document.createElement('img');
 
-
   let validationImg = new Image();
   validationImg.src = input.value;
   validationImg.onload = () => {
@@ -200,8 +187,6 @@ function stopEditingCard(card, cardData) {
   validationImg.onerror = () => {
     img.src = cardData.image_src;
   }
-
-
 
   img.classList.add('image');
   card.card.replaceChild(img, input);
