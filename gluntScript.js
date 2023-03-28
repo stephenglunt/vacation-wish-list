@@ -6,17 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   inputButton.addEventListener('click', () => {
-    const newCard = createNewCard();
 
     if (!validateName() || !validateLocation()) {
       // alert("Name must be at least 2 characters.");
       return;
     }
 
+    const newCard = createNewCard();
+
+
     destinations.appendChild(newCard.card);
 
     newCard.editButton.addEventListener('click', () => {
-
       editCard(newCard, cardData);
     });
 
@@ -34,10 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function createNewCard() {
+  //Get input data
   const nameInput = document.querySelector('#name');
   const locationInput = document.querySelector('#location');
   const photoURLInput = document.querySelector('#photo');
   const descriptionInput = document.querySelector('#description');
+
+
 
   const newCardObj = {
     card: document.createElement('div'),
@@ -58,10 +62,12 @@ function createNewCard() {
   }
 
   //set content
+
+
   let img = new Image();
   img.src = photoURLInput.value;
   img.onload = () => {
-    newCardObj.image.src = photoURLInput.value;
+    newCardObj.image.src = img.src;
   }
   img.onerror = () => {
     newCardObj.image.src = "https://cavchronicle.org/wp-content/uploads/2018/03/top-travel-destination-for-visas-900x504.jpg";
@@ -80,6 +86,12 @@ function createNewCard() {
   newCardObj.card.appendChild(newCardObj.description);
   newCardObj.card.appendChild(newCardObj.editButton);
   newCardObj.card.appendChild(newCardObj.removeButton);
+
+  //Clear Fields
+  nameInput.value = "";
+  locationInput.value = "";
+  descriptionInput.value = "";
+  photoURLInput.value = "";
 
   return newCardObj;
 
@@ -130,8 +142,15 @@ function editCard(card, cardData) {
     card.description.contentEditable = true;
 
     //Change img object to input object with same dimensions.
-    card.image.contentEditable = true;
-    card.image.setAttribute("draggable", false);
+    const img = card.image;
+    const inputSrc = document.createElement('input');
+    inputSrc.type = 'text';
+    inputSrc.value = img.src;
+    inputSrc.style.backgroundImage = 'url("' + img.src + '")';
+    inputSrc.style.backgroundSize = 'contain';
+    inputSrc.classList.add('image');
+    card.card.replaceChild(inputSrc, img);
+    inputSrc.wrap = 'soft';
     card.name.focus();
   } else {
 
@@ -140,6 +159,8 @@ function editCard(card, cardData) {
 }
 
 function cancelEdit(card, cardData) {
+
+
   let img = new Image();
   img.src = cardData.image_src;
   img.onload = () => {
@@ -157,16 +178,34 @@ function cancelEdit(card, cardData) {
 }
 
 function stopEditingCard(card, cardData) {
+  //change the button labels back to Edit and Remove
   card.editButton.textContent = "Edit";
   card.removeButton.textContent = "Remove";
+
+  //Make the elements uneditable
   card.name.contentEditable = false;
   card.location.contentEditable = false;
   card.description.contentEditable = false;
-  card.image.removeAttribute("draggable");
-  card.image.contentEditable = false;
 
-  console.log(card.location.textContent);
-  console.log(cardData.location);
+  //Replace the image
+  const input = card.card.querySelector('.image');
+  const img = document.createElement('img');
+
+
+  let validationImg = new Image();
+  validationImg.src = input.value;
+  validationImg.onload = () => {
+    img.src = input.value;
+  }
+  validationImg.onerror = () => {
+    img.src = cardData.image_src;
+  }
+
+
+
+  img.classList.add('image');
+  card.card.replaceChild(img, input);
+  card.image = img;
 
   if (card.name.textContent.length < 2) {
     card.name.textContent = cardData.name;
