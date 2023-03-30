@@ -1,7 +1,8 @@
 // import * as validation from './validation.mjs';
 // <script type="module" src="./validation.mjs"></script>
 
-import {validateName, validateLocation, getSafeDescription, getValidImgUrl} from './validation.js';
+import { validateName, validateLocation, getSafeDescription, getValidImgUrl } from './validation.js';
+import { getGif } from './giphy.js';
 
 const defaultImgUrl = "https://cavchronicle.org/wp-content/uploads/2018/03/top-travel-destination-for-visas-900x504.jpg";
 
@@ -13,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
   inputButton.addEventListener('click', () => {
 
     if (!validateName() || !validateLocation()) {
-      // alert("Name must be at least 2 characters.");
       return;
     }
 
@@ -62,19 +62,31 @@ function createNewCard() {
   }
 
   //set content
-  getValidImgUrl(photoURLInput.value)
-  .then(url => {
-    newCardObj.image.src = url;
-  })
-  .catch(url => {
-    newCardObj.image.src = defaultImgUrl;
-  })
-
   newCardObj.name.textContent = nameInput.value;
   newCardObj.location.textContent = locationInput.value;
   newCardObj.description.textContent = getSafeDescription(descriptionInput.value);
   newCardObj.editButton.textContent = 'Edit';
   newCardObj.removeButton.textContent = 'Remove';
+
+
+  //Set image
+  let validUrl = false;
+  const searchString = nameInput.value + "+" + locationInput.value;
+  getValidImgUrl(photoURLInput.value)
+  .then(url => {
+    validUrl = true;
+    newCardObj.image.src = url;
+  })
+  .catch(() => {
+    return getGif(searchString);
+  })
+  .then(url => {
+    if(!validUrl) newCardObj.image.src = url;
+  })
+  .catch(() => {
+    newCardObj.image.src = defaultImgUrl;
+  });
+
 
   //append children
   newCardObj.card.appendChild(newCardObj.image);
@@ -94,39 +106,6 @@ function createNewCard() {
 }
 
 
-// function validateName() {
-//   const name = document.getElementById("name").value;
-//   const errorSpan = document.getElementById("name-error");
-//   if (name.length < 2) {
-//     errorSpan.textContent = "Name must be at least 2 characters.";
-//     return false;
-//   } else if (name.length > 1000) {
-//     errorSpan.textContent = "Name must be less than 1000 characters.";
-//     return false;
-//   } else {
-//     errorSpan.textContent = "";
-//   }
-//   return true;
-// }
-
-// function validateLocation() {
-//   const location = document.getElementById("location").value;
-//   const errorSpan = document.getElementById("location-error");
-//   if (location.length < 2) {
-//     errorSpan.textContent = "Location must be at least 2 characters.";
-//     return false;
-//   } else if (name.length > 1000) {
-//     errorSpan.textContent = "Location must be less than 1000 characters.";
-//     return false;
-//   } else {
-//     errorSpan.textContent = "";
-//   }
-//   return true;
-// }
-
-// function getSafeDescription(description) {
-//   return description.trim().substring(0, 1000);
-// }
 
 function editCard(card, cardData) {
 
@@ -165,10 +144,13 @@ function editCard(card, cardData) {
 }
 
 function cancelEdit(card, cardData) {
-
+  //Restore any changes
   card.name.textContent = cardData.name;
+  // card.inputSrc.textContent = cardData.image_src;
+  card.card.querySelector('.image').value = cardData.image_src;
   card.location.textContent = cardData.location;
   card.description.textContent = getSafeDescription(cardData.description);
+
 
   stopEditingCard(card, cardData);
 }
@@ -188,12 +170,12 @@ function stopEditingCard(card, cardData) {
   const img = document.createElement('img');
 
   getValidImgUrl(input.value)
-  .then(url => {
-    img.src = url;
-  })
-  .catch(url => {
-    img.src = cardData.image_src;
-  })
+    .then(url => {
+      img.src = url;
+    })
+    .catch(url => {
+      img.src = cardData.image_src;
+    })
 
   img.classList.add('image');
   card.card.replaceChild(img, input);
@@ -206,20 +188,3 @@ function stopEditingCard(card, cardData) {
     card.location.textContent = cardData.location;
   }
 }
-
-// function getValidImgUrl(inputUrl) {
-
-//   return new Promise((resolve, reject) => {
-//     const img = new Image();
-//     img.src = inputUrl;
-
-//     img.onload = () => {
-//       resolve(img.src);
-//     };
-
-//     img.onerror = () => {
-//       reject();
-//     };
-
-//   });
-// }

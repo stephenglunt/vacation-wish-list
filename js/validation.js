@@ -12,7 +12,6 @@ export function getValidImgUrl(inputUrl) {
       img.onerror = () => {
         reject();
       };
-
     });
 }
 
@@ -50,10 +49,3 @@ export function validateName() {
   export function getSafeDescription(description) {
     return description.trim().substring(0, 1000);
   }
-
-  // export default {
-  //   validateName,
-  //   validateLocation,
-  //   getSafeDescription,
-  //   getValidImgUrl
-  // };
