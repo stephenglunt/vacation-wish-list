@@ -2,7 +2,7 @@
 // <script type="module" src="./validation.mjs"></script>
 
 import { validateName, validateLocation, getSafeDescription, getValidImgUrl } from './validation.js';
-import { getGif } from './giphy.js';
+import { getGif, getUnSplash } from './giphy.js';
 
 const defaultImgUrl = "https://cavchronicle.org/wp-content/uploads/2018/03/top-travel-destination-for-visas-900x504.jpg";
 
@@ -73,19 +73,19 @@ function createNewCard() {
   let validUrl = false;
   const searchString = nameInput.value + "+" + locationInput.value;
   getValidImgUrl(photoURLInput.value)
-  .then(url => {
-    validUrl = true;
-    newCardObj.image.src = url;
-  })
-  .catch(() => {
-    return getGif(searchString);
-  })
-  .then(url => {
-    if(!validUrl) newCardObj.image.src = url;
-  })
-  .catch(() => {
-    newCardObj.image.src = defaultImgUrl;
-  });
+    .then(url => {
+      validUrl = true;
+      newCardObj.image.src = url;
+    })
+    .catch(async () => {
+      try {
+        const url = await getUnSplash(searchString);
+        newCardObj.image.src = url; //if (!validUrl)
+      } catch {
+        newCardObj.image.src = defaultImgUrl;
+      }
+    });
+
 
 
   //append children
